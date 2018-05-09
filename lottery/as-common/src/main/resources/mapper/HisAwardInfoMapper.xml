@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.homedo.as.mapper.HisAwardInfoMapper">
+
+
+    <select id="findJy" resultType="com.homedo.as.dto.JyWsRespDTO">
+        select year, term_num as termNum, jy from his_award_info where year = #{year} order by id desc
+    </select>
+
+    <select id="findWs" resultType="com.homedo.as.dto.JyWsRespDTO">
+        select year, term_num as termNum, ws from his_award_info where year = #{year} order by id desc
+    </select>
+
+    <select id="findLx" resultType="com.homedo.as.dto.LxlmRespDTO">
+        select term_num as termNum, sx from his_award_info where year = #{year} order by id desc
+    </select>
+
+    <select id="findLm" resultType="com.homedo.as.dto.LxlmRespDTO">
+        select term_num as termNum, numbers from his_award_info where year = #{year} order by id desc
+    </select>
+</mapper>

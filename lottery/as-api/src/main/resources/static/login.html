@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--
+Beyond Admin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3
+Version: 1.0.0
+Purchase: http://wrapbootstrap.com
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--Head-->
+<head>
+
+    <meta charset="utf-8" />
+    <title>Login Page</title>
+    <meta name="description" content="login page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="static/bootstrap/assets/img/favicon.png" type="image/x-icon">
+
+    <!--Basic Styles-->
+    <link href="static/bootstrap/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+    <link href="static/bootstrap/assets/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!--Fonts-->
+    <link href="static/bootstrap/assets/css/skins/green.min.css" rel="stylesheet" />
+
+    <!--Beyond styles-->
+    <link href="static/bootstrap/assets/css/beyond.min.css" rel="stylesheet" />
+    <link href="static/bootstrap/assets/css/demo.min.css" rel="stylesheet" />
+    <link href="static/bootstrap/assets/css/animate.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />
+    <!-- 验证样式 -->
+    <link rel="stylesheet" href="static/bootstrap/css/validate/validationEngine.jquery.css" type="text/css"/>
+
+
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    <script src="static/bootstrap/assets/js/skins.min.js"></script>
+
+    <!--Basic Scripts-->
+    <script src="static/bootstrap/assets/js/jquery-1.9.1.js"></script>
+    <script src="static/bootstrap/assets/js/jquery-1.9.1.min.js"></script>
+    <script src="static/bootstrap/assets/js/bootstrap.min.js"></script>
+    <script src="static/bootstrap/assets/js/bootbox/bootbox.js"></script>
+
+    <!-- 验证 -->
+    <script type="text/javascript" src="static/bootstrap/js/validate/jquery.validationEngine-zh_CN.js"></script>
+    <script type="text/javascript" src="static/bootstrap/js/validate/jquery.validationEngine.js"></script>
+
+    <script type="text/javascript" src="static/bootstrap/js/common/common.js"></script>
+
+
+
+    <script type="text/javascript">
+
+		$(function(){
+			document.onkeydown=function(event)
+			{
+			e = event ? event :(window.event ? window.event : null);
+			if(e.keyCode==13){
+				$("#sign_form").validationEngine();
+			}
+			}
+
+			$("#sign_form").validationEngine( {
+					promptPosition : "topRight"
+			});
+
+		});
+
+		function forgetPassword(){
+			$alert("请联系管理员设置初始密码");
+		}
+		function signup(){
+		    $alert("请联系管理员为您添加账户");
+		}
+
+		var login = function(){
+		if($("#sign_form").validationEngine('validate')){
+			$.ajax({
+                type: "GET",
+                url: '/mgr/login',
+                data: "phone=" + escape($('#phone').val()) + "&pwd=" + escape($('#password').val()),
+                dataType:'json',
+                success: function(result){
+                	if(result.code == 0){
+                	    window.location.href="/mgr/main.html";
+                	}else{
+                		$alert(result.msg);
+                	}
+                }
+			});
+		}
+	}
+    </script>
+
+    <style type="text/css">
+   body:before{content:"";display:block;position:fixed;top:0;bottom:0;left:0;right:0;z-index:-1;
+   background-image: url(static/bootstrap/assets/img/loginBG.jpg);background-repeat:no-repeat;background-position: center;background-size:100%;}
+  </style>
+</head>
+<!--Head Ends-->
+<!--Body-->
+<body>
+<form action="" method="post" id="sign_form" >
+    <div class="login-container animated fadeInDown">
+        <div class="loginbox bg-white">
+            <div class="loginbox-title">Welcome</div>
+            <div class="loginbox-social">
+                <div class="social-title ">六合彩后台管理系统</div>
+            </div>
+            <!--
+            <div class="loginbox-or">
+                <div class="or-line"></div>
+                <div class="or">OR</div>
+            </div>
+            -->
+            <div class="loginbox-textbox">
+                <input type="text" class="validate[custom[phone]] form-control" placeholder="手机号码"  id="phone"  name="phone" />
+            </div>
+            <div class="loginbox-textbox">
+                <input type="password" class="validate[required,maxSize[12],minSize[6]] form-control"  placeholder="密码"  id="password"  name="password"  />
+            </div>
+            <div class="loginbox-forgot">
+                <a href="javascript:forgetPassword();">忘记密码?</a>
+            </div>
+            <div class="loginbox-submit">
+                <input type="button" class="btn btn-primary btn-block" value="登录" onclick="login()">
+            </div>
+
+            <div class="loginbox-signup">
+                <a href="javascript:signup();">注册</a>
+            </div>
+
+        </div>
+        <div class="loginbox-textbox">
+            <font style="color: red;"></font>
+        </div>
+        <!--
+        <div class="logobox"></div>
+      	 -->
+    </div>
+</form>
+</body>
+<!--Body Ends-->
+</html>

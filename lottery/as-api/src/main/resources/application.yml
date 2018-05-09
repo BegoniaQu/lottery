@@ -1,0 +1,20 @@
+
+# 页面默认前缀目录
+spring.mvc.view.prefix: /WEB-INF/jsp/
+# 响应页面默认后缀
+spring.mvc.view.suffix: .jsp
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  typeAliasesPackage: com.homedo.as.entity
+  #驼峰下划线转换
+  global-config:
+    db-column-underline: true
+  #0:"数据库ID自增"
+  #mybatis-plus.global-config.id-type=0
+
+  #配置返回数据库(column下划线命名&&返回java实体是驼峰命名)，自动匹配无需as（没开启这个，SQL需要写as： select user_id as userId）
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    defaultExecutorType: REUSE
+    defaultStatementTimeout: 25000

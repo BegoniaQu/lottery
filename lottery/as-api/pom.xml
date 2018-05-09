@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.lhbd</groupId>
+		<artifactId>lottery</artifactId>
+		<version>1.0</version>
+	</parent>
+	<groupId>com.homedo.as</groupId>
+	<artifactId>as-api</artifactId>
+	<version>0.0.1</version>
+	<packaging>war</packaging>
+
+	<name>as-api</name>
+	<!--
+	spring-boot-starter-parent是一个特殊的starter,它用来提供相关的Maven默认依赖，使用它之后，常用的包依赖可以省去version标签。
+	关于Spring Boot提供了哪些jar包的依赖
+	-->
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>com.homedo.as</groupId>
+			<artifactId>as-common</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.pub.springboot</groupId>
+			<artifactId>quy-utils</artifactId>
+			<version>1.0</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>dev/*</exclude>
+					<exclude>pro/*</exclude>
+				</excludes>
+				<filtering>false</filtering>
+
+			</resource>
+			<resource>
+				<directory>src/main/resources/${env}</directory>
+				<filtering>false</filtering>
+			</resource>
+
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

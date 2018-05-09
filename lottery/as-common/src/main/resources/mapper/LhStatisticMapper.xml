@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.homedo.as.mapper.LhStatisticMapper">
+
+    <select id="findAllTerm" resultType="java.lang.Integer">
+        select term from lh_statistic
+    </select>
+
+    <select id="getLhData" resultType="java.lang.String">
+        select lh_data from lh_statistic where term = #{term}
+    </select>
+    <select id="getZwData" resultType="java.lang.String">
+        select zw_data from lh_statistic where term = #{term}
+    </select>
+    <select id="getTwData" resultType="java.lang.String">
+        select tw_data from lh_statistic where term = #{term}
+    </select>
+    <select id="getZbsData" resultType="java.lang.String">
+        select zbs_data from lh_statistic where term = #{term}
+    </select>
+    <select id="getTbsData" resultType="java.lang.String">
+        select tbs_data from lh_statistic where term = #{term}
+    </select>
+    <select id="getZsxData" resultType="java.lang.String">
+        select zsx_data from lh_statistic where term = #{term}
+    </select>
+    <select id="getTsxData" resultType="java.lang.String">
+        select tsx_data from lh_statistic where term = #{term}
+    </select>
+
+
+</mapper>

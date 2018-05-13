@@ -20,7 +20,7 @@ public class DataSourceConfig {
 
     @Bean(name="dataSource", destroyMethod = "close")
     @ConfigurationProperties(prefix="spring.datasource")
-    public DataSource dataSource(){
+    public DruidDataSource dataSource(){
         return new DruidDataSource();
     }
 

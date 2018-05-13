@@ -102,7 +102,7 @@ public class BeanConverter {
             respBean.setId(t.getId());
             respBean.setArrayName(t.getArrayName());
             respBean.setOperator(t.getOperator());
-            respBean.setCreateTime(DateUtils.date2String(t.getCreateTime(), DateUtils.formalPattern));
+            //respBean.setRule();
             respBean.setLastUpdateTime(DateUtils.date2String(t.getLastUpdateTime(), DateUtils.formalPattern));
             return respBean;
         }).collect(Collectors.toList());

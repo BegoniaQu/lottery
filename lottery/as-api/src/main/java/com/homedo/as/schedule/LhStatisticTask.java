@@ -32,7 +32,7 @@ public class LhStatisticTask {
     /**
      * 每日五点更新一次数据
      */
-    @Scheduled(cron = "0 16 10 * * ?")
+    @Scheduled(cron = "0 20 12 * * ?")
     public void work(){
         log.info("Start LhStatisticTask");
         try {

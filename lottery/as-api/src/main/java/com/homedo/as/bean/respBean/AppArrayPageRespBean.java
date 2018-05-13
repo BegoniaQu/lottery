@@ -19,13 +19,11 @@ public class AppArrayPageRespBean {
      */
     private String operator;
     /**
-     * 创建时间
-     */
-    private String createTime;
-    /**
      * 更新时间
      */
     private String lastUpdateTime;
+
+    private String rule;
 
     public Long getId() {
         return id;
@@ -51,19 +49,19 @@ public class AppArrayPageRespBean {
         this.operator = operator;
     }
 
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
     public String getLastUpdateTime() {
         return lastUpdateTime;
     }
 
     public void setLastUpdateTime(String lastUpdateTime) {
         this.lastUpdateTime = lastUpdateTime;
+    }
+
+    public String getRule() {
+        return rule;
+    }
+
+    public void setRule(String rule) {
+        this.rule = rule;
     }
 }

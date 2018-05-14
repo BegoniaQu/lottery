@@ -2,6 +2,7 @@ package com.homedo.as.bean;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.homedo.as.bean.respBean.*;
+import com.homedo.as.dto.AppArrayInfoDTO;
 import com.homedo.as.dto.JyWsRespDTO;
 import com.homedo.as.dto.LxlmRespDTO;
 import com.homedo.as.entity.*;
@@ -96,14 +97,15 @@ public class BeanConverter {
     }
 
 
-    public List<AppArrayPageRespBean> appArrayConvert(List<AppArrayInfo> list){
+    public List<AppArrayPageRespBean> appArrayConvert(List<AppArrayInfoDTO> list){
         List<AppArrayPageRespBean> respBeanList = list.stream().map(t->{
             AppArrayPageRespBean respBean = new AppArrayPageRespBean();
             respBean.setId(t.getId());
             respBean.setArrayName(t.getArrayName());
             respBean.setOperator(t.getOperator());
-            //respBean.setRule();
-            respBean.setLastUpdateTime(DateUtils.date2String(t.getLastUpdateTime(), DateUtils.formalPattern));
+            respBean.setRule(t.getRule());
+            respBean.setRuleName(t.getRuleName());
+            respBean.setLastUpdateTime(DateUtils.date2String(t.getCreateTime(), DateUtils.formalPattern));
             return respBean;
         }).collect(Collectors.toList());
         return respBeanList;

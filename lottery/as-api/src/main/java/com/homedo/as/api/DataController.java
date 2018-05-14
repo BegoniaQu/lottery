@@ -14,7 +14,6 @@ import com.homedo.as.entity.*;
 import com.homedo.as.service.*;
 import com.pub.DateUtils;
 import com.pub.JsonUtil;
-import com.pub.Request2PojoConverter;
 import com.pub.bean.PageResult;
 import com.pub.exception.SCInvalidParamException;
 import com.pub.exception.SCUnAuthorizedRuntimeException;
@@ -346,6 +345,24 @@ public class DataController extends BaseController{
     }
 
 
+    @GetMapping(value = "/array/list")
+    public Object findAppArray(String arrayName, int offset, int limit){
+        if(!StringUtils.isEmpty(arrayName)){
+            arrayName = arrayName.trim();
+        }
+        if(offset == 0){
+            offset = 1;
+        }else{
+            offset = (offset/10) +1;
+        }
+        Page<AppArrayInfoDTO> page = this.appArrayInfoService.page(arrayName, offset, limit);
+        List<AppArrayPageRespBean> respList = beanConverter.appArrayConvert(page.getRecords());
+        return new PageResult<>(respList, page.getCurrent(), page.getSize(), page.getTotal());
+    }
+
+
+
+
     private String num2String(int num){
         return num < 10 ? ("0" + num) : "" + num;
     }
@@ -427,11 +444,5 @@ public class DataController extends BaseController{
     }
 
 
-    @GetMapping("/array/page")
-    public Object findAppArray(HttpServletRequest request){
-        AppArrayInfoDTO dto = Request2PojoConverter.request2Pojo(request, AppArrayInfoDTO.class);
-        Page<AppArrayInfo> page = this.appArrayInfoService.page(dto);
-        List<AppArrayPageRespBean> respList = beanConverter.appArrayConvert(page.getRecords());
-        return new PageResult<>(respList, page.getCurrent(), page.getSize(), page.getTotal());
-    }
+
 }

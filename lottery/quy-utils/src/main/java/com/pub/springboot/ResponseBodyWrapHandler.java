@@ -28,9 +28,7 @@ public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler 
 
     @Override
     public void handleReturnValue(Object o, MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest) throws Exception {
-        if(!(o instanceof ModelAndView)){
-            ResultBean resultBean = ResultUitls.ok(o);
-            delegate.handleReturnValue(resultBean, methodParameter, modelAndViewContainer, nativeWebRequest);
-        }
+        ResultBean resultBean = ResultUitls.ok(o);
+        delegate.handleReturnValue(resultBean, methodParameter, modelAndViewContainer, nativeWebRequest);
     }
 }

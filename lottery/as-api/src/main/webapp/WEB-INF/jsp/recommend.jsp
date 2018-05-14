@@ -193,9 +193,7 @@
                         </div>
                         <div class="widget-body">
                             <div id="toolbar">
-                            <c:if test="${sessionScope.loginUser.admin == true}">
-                                <a href="javascript:showAddBrocadesac();" class="btn btn-blue shiny">添加</a>
-                            </c:if>
+                                <a href="javascript:showAddRecommend();" class="btn btn-blue shiny">添加</a>
                             </div>
                             <table id="table"></table>
                         </div>
@@ -274,7 +272,7 @@
                 			       year:escape($('#yer').val())}
                 		});
                 }
-                function showAddBrocadesac(){
+                function showAddRecommend(){
                     $("#add").show();
                 }
                 function addRecommendSubmit(){

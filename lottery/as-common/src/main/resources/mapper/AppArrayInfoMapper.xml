@@ -2,4 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.homedo.as.mapper.AppArrayInfoMapper">
 
+    <select id="findArrayInfo" resultType="com.homedo.as.dto.AppArrayInfoDTO">
+      select a.id,a.array_name as arrayName,a.operator,a.last_update_time as createTime,b.rule,b.name as ruleName from app_array_info a left join app_rule_info b on a.rule_id=b.id
+        <if test="arrayName != null">
+            WHERE a.array_name LIKE '%${arrayName}%'
+        </if>
+    </select>
 </mapper>

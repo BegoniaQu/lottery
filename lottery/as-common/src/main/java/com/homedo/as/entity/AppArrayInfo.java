@@ -31,6 +31,11 @@ public class AppArrayInfo implements Serializable {
     @TableField("array_name")
     private String arrayName;
     /**
+     * 规则ID
+     */
+    @TableField("rule_id")
+    private Long ruleId;
+    /**
      * 操作人
      */
     private String operator;
@@ -62,6 +67,14 @@ public class AppArrayInfo implements Serializable {
         this.arrayName = arrayName;
     }
 
+    public Long getRuleId() {
+        return ruleId;
+    }
+
+    public void setRuleId(Long ruleId) {
+        this.ruleId = ruleId;
+    }
+
     public String getOperator() {
         return operator;
     }
@@ -88,11 +101,13 @@ public class AppArrayInfo implements Serializable {
 
     public static final String array_name = "array_name";
 
+
     @Override
     public String toString() {
         return "AppArrayInfo{" +
         ", id=" + id +
         ", arrayName=" + arrayName +
+        ", ruleId=" + ruleId +
         ", operator=" + operator +
         ", createTime=" + createTime +
         ", lastUpdateTime=" + lastUpdateTime +

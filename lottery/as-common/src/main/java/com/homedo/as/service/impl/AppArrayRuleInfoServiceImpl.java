@@ -17,10 +17,12 @@ public class AppArrayRuleInfoServiceImpl implements AppArrayRuleInfoService{
     private AppArrayRuleInfoDao appArrayRuleInfoDao;
 
     @Override
-    public AppArrayRuleInfo getRuleByArrayId(Long arrayId) {
+    public AppArrayRuleInfo getById(Long id) {
         EntityWrapper<AppArrayRuleInfo> wrapper = new EntityWrapper<>();
-        wrapper.eq(AppArrayRuleInfo.ARRAY_ID, arrayId);
+        wrapper.eq(AppArrayRuleInfo.ID, id);
         wrapper.eq(AppArrayRuleInfo.STATUS, 1);
-        return appArrayRuleInfoDao.selectOne(wrapper);
+        return this.appArrayRuleInfoDao.selectOne(wrapper);
     }
+
+
 }

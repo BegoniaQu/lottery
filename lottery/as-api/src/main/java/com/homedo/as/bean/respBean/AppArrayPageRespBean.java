@@ -25,6 +25,8 @@ public class AppArrayPageRespBean {
 
     private String rule;
 
+    private String ruleName;
+
     public Long getId() {
         return id;
     }
@@ -63,5 +65,13 @@ public class AppArrayPageRespBean {
 
     public void setRule(String rule) {
         this.rule = rule;
+    }
+
+    public String getRuleName() {
+        return ruleName;
+    }
+
+    public void setRuleName(String ruleName) {
+        this.ruleName = ruleName;
     }
 }

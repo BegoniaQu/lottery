@@ -45,6 +45,8 @@ public class ApiController {
     private DicInfoService dicInfoService;
     @Autowired
     private AppArrayRuleInfoService appArrayRuleInfoService;
+    @Autowired
+    private AppArrayInfoService appArrayInfoService;
 
 
     @ApiOperation(value="根据appId获取组配置信息", response = String.class, produces = "application/json")
@@ -54,9 +56,12 @@ public class ApiController {
         if(appBaseInfo != null){
             Long arrayId = appBaseInfo.getArrayId();
             if(arrayId != null){
-                AppArrayRuleInfo appArrayRuleInfo = appArrayRuleInfoService.getRuleByArrayId(arrayId);
-                if(appArrayRuleInfo != null){
-                    return appArrayRuleInfo.getRule();
+                AppArrayInfo appArrayInfo = this.appArrayInfoService.getById(arrayId);
+                if(appArrayInfo != null){
+                    AppArrayRuleInfo appArrayRuleInfo = appArrayRuleInfoService.getById(appArrayInfo.getRuleId());
+                    if(appArrayRuleInfo != null){
+                        return appArrayRuleInfo.getRule();
+                    }
                 }
             }
         }

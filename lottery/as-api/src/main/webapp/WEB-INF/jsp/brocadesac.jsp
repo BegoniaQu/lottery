@@ -164,9 +164,7 @@
                         </div>
                         <div class="widget-body">
                             <div id="toolbar">
-                            <c:if test="${sessionScope.loginUser.admin == true}">
                                 <a href="javascript:showAddBrocadesac();" class="btn btn-blue shiny">添加</a>
-                            </c:if>
                             </div>
                             <table id="table"></table>
                         </div>

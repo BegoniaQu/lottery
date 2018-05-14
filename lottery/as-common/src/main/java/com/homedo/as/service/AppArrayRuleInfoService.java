@@ -7,5 +7,5 @@ import com.homedo.as.entity.AppArrayRuleInfo;
  */
 public interface AppArrayRuleInfoService {
 
-    AppArrayRuleInfo getRuleByArrayId(Long arrayId);
+    AppArrayRuleInfo getById(Long id);
 }

@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @author quyang
  * @since 2018-04-08
  */
-@TableName("app_array_rule_info")
+@TableName("app_rule_info")
 public class AppArrayRuleInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,11 +25,8 @@ public class AppArrayRuleInfo implements Serializable {
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-    /**
-     * 组ID
-     */
-    @TableField("array_id")
-    private Long arrayId;
+
+    private String name;
     /**
      * 规则
      */
@@ -62,12 +59,12 @@ public class AppArrayRuleInfo implements Serializable {
         this.id = id;
     }
 
-    public Long getArrayId() {
-        return arrayId;
+    public String getName() {
+        return name;
     }
 
-    public void setArrayId(Long arrayId) {
-        this.arrayId = arrayId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getRule() {
@@ -114,7 +111,7 @@ public class AppArrayRuleInfo implements Serializable {
     public String toString() {
         return "AppArrayRuleInfo{" +
         ", id=" + id +
-        ", arrayId=" + arrayId +
+        ", name=" + name +
         ", rule=" + rule +
         ", status=" + status +
         ", operator=" + operator +
@@ -124,6 +121,6 @@ public class AppArrayRuleInfo implements Serializable {
     }
 
     public static final String ARRAY_ID = "array_id";
-
     public static final String STATUS = "status";
+    public static final String ID = "id";
 }

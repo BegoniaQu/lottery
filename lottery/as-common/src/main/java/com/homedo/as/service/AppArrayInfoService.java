@@ -12,5 +12,5 @@ public interface AppArrayInfoService {
     void addAppArrayInfo(AppArrayInfo appArrayInfo);
     AppArrayInfo getById(Long arrayId);
     void updateAppArrayInfo(AppArrayInfo appArrayInfo);
-    Page<AppArrayInfo> page(AppArrayInfoDTO dto);
+    Page<AppArrayInfoDTO> page(String arrayName, int pageNumber, int pageSize);
 }

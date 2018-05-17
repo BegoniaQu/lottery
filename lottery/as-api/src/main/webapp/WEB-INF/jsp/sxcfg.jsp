@@ -16,7 +16,7 @@
     <script type="text/javascript">
     	$(function() {
     		//选中菜单节点
-    		$("#appNode").addClass("active open");
+    		$("#contentNode").addClass("active open");
     		$("#sxNode").addClass("active");
     	});
     </script>

@@ -2,4 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.homedo.as.mapper.AppBaseInfoMapper">
 
+
+
+    <select id="findAppBaseInfo" resultType="com.homedo.as.dto.AppBaseInfoDTO">
+        select
+        a.id,
+        a.app_id as appId,
+        a.app_name as appName,
+        a.announce_content as announceContent,
+        a.home_page_url as homePageUrl,
+        a.operator,
+        a.last_update_time as operateTime,
+        b.array_name as arrayName,
+        c.category_name as categoryName
+        from app_base_info a
+        left join app_array_info b on a.array_id=b.id
+        left join app_category_info c on a.app_category_id_path=c.id
+        where 1=1
+        <if test="appId != null">
+          and a.app_id like '%${appId}%'
+        </if>
+        <if test="arrayId != null">
+          and a.array_id=#{arrayId}
+        </if>
+        <if test="categoryId != null">
+          and a.app_category_id_path=#{categoryId}
+        </if>
+        order by a.create_time desc
+    </select>
+
 </mapper>

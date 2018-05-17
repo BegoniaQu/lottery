@@ -34,6 +34,133 @@
 		<!-- Page Body -->
 		<div class="page-body" id="my_content">
 
+            <div class="row" id="add" style="display: none">
+                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                    <div class="widget">
+                        <div class="widget-header header-small">
+                            <span class="widget-caption" id="title">增加组</span>
+                            <div class="widget-buttons">
+                                <a href="#" data-toggle="config"> <i
+                                        class="fa fa-cog yellow"></i>
+                                </a> <a href="#" data-toggle="maximize"> <i
+                                    class="fa fa-expand pink"></i>
+                            </a> <a href="#" data-toggle="collapse"> <i
+                                    class="fa fa-minus blue"></i>
+                            </a> <a href="#" onclick="$('#add').hide();"> <i
+                                    class="fa fa-times darkorange"></i>
+                            </a>
+                            </div>
+                        </div>
+                        <div class="widget-body" style="padding-bottom: 0px;">
+                            <form id="addForm" method="post">
+                                <!-- line 1 -->
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="databox" style="margin-bottom: 0px; height: 50px;">
+                                            <div class="databox-left no-padding-right no-padding-left"
+                                                 style="color: #000;">
+                                                <label class="control-label">组名称:</label>
+                                            </div>
+                                            <div class=" databox-right ">
+                                                <input name="arrayName" class="input-sm form-control validate[required]" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="databox" style="margin-bottom: 0px; height: 50px;">
+                                            <div class="databox-left no-padding-right no-padding-left"
+                                                 style="color: #000;">
+                                                <label class="control-label">规则:</label>
+                                            </div>
+                                            <div class="databox-right ">
+												<select name="ruleId" id="myRule" class="select-sm form-control validate[required]" >
+													<option value="">--请选择--</option>
+												</select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12"
+                                         style="float: right; margin-right: 5px;">
+                                        <div class="databox-left"
+                                             style="margin-bottom: 5px; margin-right: 0px; text-align: right;">
+                                            <input type="button" id="sendButton" class="btn btn-success" value="提交" style="margin-right: 5px;" onclick="addArraySubmit()"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<!-- /增加组-->
+
+			<div class="row" id="edit" style="display: none">
+				<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+					<div class="widget">
+						<div class="widget-header header-small">
+							<span class="widget-caption" id="titleEdit">编辑组</span>
+							<div class="widget-buttons">
+								<a href="#" data-toggle="config"> <i
+										class="fa fa-cog yellow"></i>
+								</a> <a href="#" data-toggle="maximize"> <i
+									class="fa fa-expand pink"></i>
+							</a> <a href="#" data-toggle="collapse"> <i
+									class="fa fa-minus blue"></i>
+							</a> <a href="#" onclick="$('#edit').hide();"> <i
+									class="fa fa-times darkorange"></i>
+							</a>
+							</div>
+						</div>
+						<div class="widget-body" style="padding-bottom: 0px;">
+							<form id="editForm" method="post">
+								<input class="input-sm form-control" name="id" id="myArrayId" type="hidden"/>
+								<!-- line 1 -->
+								<div class="row">
+									<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+										<div class="databox" style="margin-bottom: 0px; height: 50px;">
+											<div class="databox-left no-padding-right no-padding-left"
+												 style="color: #000;">
+												<label class="control-label">组名称:</label>
+											</div>
+											<div class=" databox-right ">
+												<input name="arrayName" id="myArray" class="input-sm form-control validate[required]" />
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+										<div class="databox" style="margin-bottom: 0px; height: 50px;">
+											<div class="databox-left no-padding-right no-padding-left"
+												 style="color: #000;">
+												<label class="control-label">规则:</label>
+											</div>
+											<div class="databox-right ">
+												<select name="ruleId" id="myEditRule" class="select-sm form-control validate[required]" >
+													<option value="">--请选择--</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-lg-3 col-md-12 col-sm-12 col-xs-12"
+										 style="float: right; margin-right: 5px;">
+										<div class="databox-left"
+											 style="margin-bottom: 5px; margin-right: 0px; text-align: right;">
+											<input type="button"  class="btn btn-success" value="提交" style="margin-right: 5px;" onclick="editArraySubmit()"/>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /编辑组-->
+
 			<div class="row">
 				<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 					<div class="widget">
@@ -98,6 +225,7 @@
 						<div class="widget-body">
 							<div id="toolbar">
 								<a href="javascript:showAddArray();" class="btn btn-blue shiny">添加组</a>
+								<a href="javascript:showEditArray();" class="btn btn-palegreen shiny">编辑组</a>
 							</div>
 							<table id="table"></table>
 						</div>
@@ -123,11 +251,17 @@
             pagination : true,
             pageSize : 10,
             pageNumber : 1,
+            singleSelect : true,
             sidePagination: "server",
             classes:'table table-hover table-striped table-bordered',
             iconSize : "outline",
             toolbar : "#toolbar",
             columns : [
+                {    field : 'ck'
+                    ,checkbox : true
+                    ,align : 'center'
+                    ,valign : 'middle'
+                },
                 {
                     field : 'id'
                     ,title : 'ID'
@@ -187,11 +321,53 @@
         function showAddArray(){
             $("#add").show();
         }
+		function showEditArray() {
+            $("#editForm").validationEngine();
+            var id = getSelection();
+            if(id == null){
+                $alert("请选择一条记录");return;
+			}
+            $.ajax({
+                type: "GET",
+                url: 'array/show?id=' + id,
+                dataType:'json',
+                success: function(result){
+                    if(result.code == 0){
+                        $("#myArray").val(result.data.arrayName);
+                        $("#myEditRule").val(result.data.ruleId);
+                        $("#myArrayId").val(result.data.id);
+                        $("#edit").show();
+                    }else{
+                        Notify(result.msg, 'top-right', '4000', 'danger', 'fa-bolt', true);
+                    }
+                }
+            });
+        }
+
+        function findRule(){
+            $.ajax({
+                type: "GET",
+                url:  "rule/all",
+                dataType: 'json',
+                success: function(result){
+                    if(result.code == 0){
+                        $.each(result.data, function (index, units) {
+                            $("#myRule").append("<option value="+units.id+">" + units.name + "</option>");
+                            $("#myEditRule").append("<option value="+units.id+">" + units.name + "</option>");
+                        });
+
+                    }
+                }
+            });
+
+		};
+
+
         function addArraySubmit(){
             if($("#addForm").validationEngine('validate')){
                 $.ajax({
                     type: "POST",
-                    url: 'recommend/add',
+                    url: 'array/add',
                     data:form2Json('addForm'),
                     dataType:'json',
                     success: function(result){
@@ -208,9 +384,38 @@
             }
         }
 
+        function editArraySubmit(){
+            if($("#editForm").validationEngine('validate')){
+                $.ajax({
+                    type: "POST",
+                    url: 'array/edit',
+                    data:form2Json('editForm'),
+                    dataType:'json',
+                    success: function(result){
+                        if(result.code == 0){
+                            document.getElementById("editForm").reset();
+                            $("#edit").hide();
+                            TableRefresh('table');
+                            Notify('更新成功', 'top-right', '4000', 'success', 'fa-check', true);
+                        }else{
+                            Notify(result.msg, 'top-right', '4000', 'danger', 'fa-bolt', true);
+                        }
+                    }
+                });
+            }
+        }
+
+        function getSelection(){
+            var selections = $("#table").bootstrapTable('getSelections');
+            if(selections == null || selections == ''){
+                return null;
+			}
+            return selections[0].id;
+        }
 
         $(function() {
             $("#addForm").validationEngine();
+            findRule();
         });
 	</script>
 

@@ -2,19 +2,43 @@ package com.homedo.as.bean.reqBean;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by quyang on 2018/4/8.
  */
 public class AppArrayEditReqBean {
 
-    @NotBlank(message = "请填写组名称")
-    private String name;
+    @NotNull(message = "id undefined")
+    private Long id;
 
-    public String getName() {
-        return name;
+    @NotBlank(message = "请填写组名称")
+    private String arrayName;
+
+    @NotNull(message = "选择组规则")
+    private Long ruleId;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getArrayName() {
+        return arrayName;
+    }
+
+    public void setArrayName(String arrayName) {
+        this.arrayName = arrayName;
+    }
+
+    public Long getRuleId() {
+        return ruleId;
+    }
+
+    public void setRuleId(Long ruleId) {
+        this.ruleId = ruleId;
     }
 }

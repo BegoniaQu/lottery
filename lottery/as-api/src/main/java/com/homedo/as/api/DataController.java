@@ -4,12 +4,10 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.homedo.as.bean.BeanConverter;
 import com.homedo.as.bean.LoginUser;
 import com.homedo.as.bean.reqBean.*;
-import com.homedo.as.bean.respBean.AppArrayPageRespBean;
-import com.homedo.as.bean.respBean.AwardShowRespBean;
-import com.homedo.as.bean.respBean.RecommendItem;
-import com.homedo.as.bean.respBean.UserinfoRespBean;
+import com.homedo.as.bean.respBean.*;
 import com.homedo.as.config.PropertiesConfig;
 import com.homedo.as.dto.AppArrayInfoDTO;
+import com.homedo.as.dto.AppBaseInfoDTO;
 import com.homedo.as.entity.*;
 import com.homedo.as.service.*;
 import com.pub.DateUtils;
@@ -54,6 +52,10 @@ public class DataController extends BaseController{
     private AppCategoryInfoService appCategoryInfoService;
     @Autowired
     private AppArrayInfoService appArrayInfoService;
+    @Autowired
+    private AppArrayRuleInfoService appArrayRuleInfoService;
+    @Autowired
+    private AppBaseInfoService appBaseInfoService;
 
 
     @GetMapping("/user/list")
@@ -361,6 +363,147 @@ public class DataController extends BaseController{
     }
 
 
+    @PostMapping("/array/add")
+    public Object addAppArrayInfo(@Valid AppArrayAddReqBean reqBean, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
+        }
+        AppArrayInfo one = new AppArrayInfo();
+        one.setArrayName(reqBean.getArrayName());
+        one.setRuleId(reqBean.getRuleId());
+        one.setOperator(getLongUser().getUserName());
+        appArrayInfoService.addAppArrayInfo(one);
+        return "";
+    }
+
+    @GetMapping(value = "/array/show")
+    public Object getArray(@RequestParam Long id){
+        AppArrayInfo appArrayInfo = this.appArrayInfoService.getById(id);
+        return beanConverter.arrayConvert(appArrayInfo);
+    }
+
+    @PostMapping("/array/edit")
+    public Object editAppArrayInfo(@Valid AppArrayEditReqBean reqBean, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
+        }
+        AppArrayInfo appArrayInfo = this.appArrayInfoService.getById(reqBean.getId());
+        if(appArrayInfo == null){
+            throw new SCInvalidParamException("指定ID错误");
+        }
+        AppArrayInfo updateOne = new AppArrayInfo();
+        updateOne.setId(reqBean.getId());
+        updateOne.setOperator(getLongUser().getUserName());
+        updateOne.setArrayName(reqBean.getArrayName());
+        updateOne.setRuleId(reqBean.getRuleId());
+        this.appArrayInfoService.updateAppArrayInfo(updateOne);
+        return "";
+    }
+
+    @GetMapping(value = "/rule/all")
+    public Object findRuleAll(){
+        List<AppArrayRuleInfo> list = this.appArrayRuleInfoService.findAll();
+        return beanConverter.ruleConvert(list);
+    }
+
+    @GetMapping(value = "/rule/show")
+    public Object getRule(@RequestParam Long id){
+        AppArrayRuleInfo appArrayRuleInfo = this.appArrayRuleInfoService.getById(id);
+        return beanConverter.ruleConvert(appArrayRuleInfo);
+    }
+
+    @GetMapping(value = "/rule/list")
+    public Object findRule(String ruleName, int offset, int limit){
+        if(!StringUtils.isEmpty(ruleName)){
+            ruleName = ruleName.trim();
+        }
+        if(offset == 0){
+            offset = 1;
+        }else{
+            offset = (offset/10) +1;
+        }
+         Page<AppArrayRuleInfo> page = this.appArrayRuleInfoService.page(ruleName, offset, limit);
+        List<RulePageRespBean> respList = beanConverter.ruleListConvert(page.getRecords());
+        return new PageResult<>(respList, page.getCurrent(), page.getSize(), page.getTotal());
+    }
+
+
+    @PostMapping("/rule/add")
+    public Object addRuleInfo(@Valid RuleAddReqBean reqBean, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
+        }
+        AppArrayRuleInfo inserOne = new AppArrayRuleInfo();
+        inserOne.setName(reqBean.getRuleName());
+        inserOne.setRule(reqBean.getContent());
+        inserOne.setOperator(getLongUser().getUserName());
+        appArrayRuleInfoService.addRuleInfo(inserOne);
+        return "";
+    }
+
+
+    @PostMapping("/rule/edit")
+    public Object editRuleInfo(@Valid RuleEditReqBean reqBean, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
+        }
+        AppArrayRuleInfo ruleInfo = this.appArrayRuleInfoService.getById(reqBean.getId());
+        if(ruleInfo == null){
+            throw new SCInvalidParamException("指定ID错误");
+        }
+        AppArrayRuleInfo updateOne = new AppArrayRuleInfo();
+        updateOne.setId(reqBean.getId());
+        updateOne.setOperator(getLongUser().getUserName());
+        updateOne.setRule(reqBean.getContent());
+        updateOne.setName(reqBean.getRuleName());
+        this.appArrayRuleInfoService.updateRuleInfo(updateOne);
+        return "";
+    }
+
+
+    @GetMapping("appbase/list")
+    public Object findAppInfo(Long arrayId, Long categoryId, String appId, int offset, int limit){
+        if(!StringUtils.isEmpty(appId)){
+            appId = appId.trim();
+        }
+        if(offset == 0){
+            offset = 1;
+        }else{
+            offset = (offset/10) +1;
+        }
+        Page<AppBaseInfoDTO> page = this.appBaseInfoService.page(arrayId, categoryId, appId, offset, limit);
+        List<AppBasePageRespBean> respList = beanConverter.appBaseConvert(page.getRecords());
+        return new PageResult<>(respList, page.getCurrent(), page.getSize(), page.getTotal());
+    }
+
+
+
+
+
+    @PostMapping("/category/add")
+    public Object addCategory(@Valid AppCategoryAddReqBean reqBean, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
+        }
+        AppCategoryInfo appCategoryInfo = new AppCategoryInfo();
+        appCategoryInfo.setCategoryName(reqBean.getName());
+        this.appCategoryInfoService.addCategory(appCategoryInfo);
+        return "";
+    }
+
+    @GetMapping("category/all")
+    public Object findCategoryAll(){
+        List<AppCategoryInfo> list = this.appCategoryInfoService.finalAll();
+        return beanConverter.categoryAllConvert(list);
+    }
+
+    @GetMapping("array/all")
+    public Object findArrayAll(){
+        List<AppArrayInfo> list = this.appArrayInfoService.findAll();
+        return beanConverter.arrayAllConvert(list);
+    }
+
+
 
 
     private String num2String(int num){
@@ -397,52 +540,5 @@ public class DataController extends BaseController{
     }
 
     private static final int unit = 12;
-
-
-
-    @PostMapping("/category/add")
-    public Object addCategory(@Valid AppCategoryAddReqBean reqBean, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
-        }
-        AppCategoryInfo appCategoryInfo = new AppCategoryInfo();
-        appCategoryInfo.setCategoryName(reqBean.getName());
-        this.appCategoryInfoService.addCategory(appCategoryInfo);
-        return "";
-    }
-
-    @PostMapping("/array/add")
-    public Object addAppArrayInfo(@Valid AppArrayAddReqBean reqBean, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
-        }
-        AppArrayInfo one = new AppArrayInfo();
-        one.setArrayName(reqBean.getName());
-        one.setOperator(getLongUser().getUserName());
-        appArrayInfoService.addAppArrayInfo(one);
-        return "";
-    }
-
-
-
-
-    @PostMapping("/array/{id}/edit")
-    public Object editAppArrayInfo(@PathVariable("id") Long arrayId, @Valid @RequestBody AppArrayEditReqBean reqBean, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
-        }
-        AppArrayInfo appArrayInfo = this.appArrayInfoService.getById(arrayId);
-        if(appArrayInfo == null){
-            throw new SCInvalidParamException("指定ID错误");
-        }
-        AppArrayInfo updateOne = new AppArrayInfo();
-        updateOne.setId(arrayId);
-        updateOne.setOperator(getLongUser().getUserName());
-        updateOne.setArrayName(reqBean.getName());
-        this.appArrayInfoService.updateAppArrayInfo(updateOne);
-        return "";
-    }
-
-
 
 }

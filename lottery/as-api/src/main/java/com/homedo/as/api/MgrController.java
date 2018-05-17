@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 public class MgrController {
 
 
-
-
     @RequestMapping(value = "/main.html", method = RequestMethod.GET)
     public String main() {
         return "index";
@@ -55,6 +53,9 @@ public class MgrController {
         return "recommend";
     }
 
-
+    @RequestMapping(value = "/rulecfg.html", method = RequestMethod.GET)
+    public String rulecfg(){
+        return "rulecfg";
+    }
 
 }

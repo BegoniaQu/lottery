@@ -14,7 +14,7 @@
     <script type="text/javascript">
     	$(function() {
     		//选中菜单节点
-    		$("#appNode").addClass("active open");
+    		$("#contentNode").addClass("active open");
     		$("#xjjnNode").addClass("active");
     	});
     </script>
@@ -69,7 +69,7 @@
                                 </div>
 					            <div class="row">
                                     <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="databox" style="margin-bottom: 0px; height: 50px;">
+                                        <div class="databox" style="margin-bottom: 2px;">
                                             <div class="databox-left no-padding-right no-padding-left"
                                                 style="color: #000;">
                                                 <label class="control-label">锦囊内容:</label>

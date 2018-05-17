@@ -1,5 +1,6 @@
 package com.homedo.as.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.homedo.as.dao.AppArrayInfoDao;
 import com.homedo.as.dto.AppArrayInfoDTO;
@@ -47,5 +48,8 @@ public class AppArrayInfoServiceImpl implements AppArrayInfoService{
         return page;
     }
 
-
+    @Override
+    public List<AppArrayInfo> findAll() {
+        return this.appArrayInfoDao.selectList(new EntityWrapper<>());
+    }
 }

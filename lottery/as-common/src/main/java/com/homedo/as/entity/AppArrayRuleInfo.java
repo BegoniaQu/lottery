@@ -123,4 +123,6 @@ public class AppArrayRuleInfo implements Serializable {
     public static final String ARRAY_ID = "array_id";
     public static final String STATUS = "status";
     public static final String ID = "id";
+    public static final String NAME = "name";
+    public static final String CREATETIME = "create_time";
 }

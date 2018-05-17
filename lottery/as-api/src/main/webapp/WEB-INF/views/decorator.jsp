@@ -196,6 +196,21 @@
 							</li>
 						</ul>
 					</li>
+
+					<li id="contentNode" class="node">
+						<a href="#" class="menu-dropdown">
+							<i class="menu-icon fa fa-desktop"></i>
+							<span class="menu-text">内容管理</span>
+							<i class="menu-expand"></i>
+						</a>
+						<ul class="submenu">
+						    <li id="awardNode"><a href="/mgr/award.html"> <span class="menu-text">开奖信息</span></a></li>
+							<li id="sxNode"><a href="/mgr/sxcfg.html"> <span class="menu-text">生肖信息</span></a></li>
+							<li id="lhtjNode"><a href="/mgr/recommend.html"> <span class="menu-text">六合推荐</span></a></li>
+							<li id="xjjnNode"><a href="/mgr/brocadesac.html"> <span class="menu-text">玄机锦囊</span></a></li>
+						</ul>
+					</li>
+
 					<li id="appNode" class="node">
 						<a href="#" class="menu-dropdown">
 							<i class="menu-icon fa fa-desktop"></i>
@@ -203,14 +218,12 @@
 							<i class="menu-expand"></i>
 						</a>
 						<ul class="submenu">
-						    <li id="awardNode"><a href="/mgr/award.html"> <span class="menu-text">开奖信息</span></a></li>
-							<li id="appconfigNode"><a href="/mgr/appcfg.html"> <span class="menu-text">APP配置</span></a></li>
+							<li id="appconfigNode"><a href="/mgr/appcfg.html"> <span class="menu-text">APP信息</span></a></li>
 							<li id="arrayconfigNode"><a href="/mgr/arraycfg.html"> <span class="menu-text">组配置</span></a></li>
-							<li id="sxNode"><a href="/mgr/sxcfg.html"> <span class="menu-text">生肖信息</span></a></li>
-							<li id="lhtjNode"><a href="/mgr/recommend.html"> <span class="menu-text">六合推荐</span></a></li>
-							<li id="xjjnNode"><a href="/mgr/brocadesac.html"> <span class="menu-text">玄机锦囊</span></a></li>
+							<li id="ruleNode"><a href="/mgr/rulecfg.html"> <span class="menu-text">规则配置</span></a></li>
 						</ul>
 					</li>
+
 				</ul>
 				<!-- /Sidebar Menu -->
 			</div>

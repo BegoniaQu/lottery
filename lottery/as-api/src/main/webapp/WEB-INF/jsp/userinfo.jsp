@@ -88,7 +88,7 @@
                                                 </div>
                                                 <div class=" databox-right ">
                                                     <select name="type" id="type" class="select-sm form-control validate[required]" >
-                                                        <option value="">请选择</option>
+                                                        <option value="">--请选择--</option>
                                                         <option value="1">管理员</option>
                                                         <option value="0">普通用户</option>
                                                     </select>

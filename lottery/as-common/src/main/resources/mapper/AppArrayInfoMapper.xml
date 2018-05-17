@@ -7,5 +7,6 @@
         <if test="arrayName != null">
             WHERE a.array_name LIKE '%${arrayName}%'
         </if>
+        order by a.create_time desc
     </select>
 </mapper>

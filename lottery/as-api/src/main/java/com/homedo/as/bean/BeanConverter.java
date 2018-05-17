@@ -3,6 +3,7 @@ package com.homedo.as.bean;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.homedo.as.bean.respBean.*;
 import com.homedo.as.dto.AppArrayInfoDTO;
+import com.homedo.as.dto.AppBaseInfoDTO;
 import com.homedo.as.dto.JyWsRespDTO;
 import com.homedo.as.dto.LxlmRespDTO;
 import com.homedo.as.entity.*;
@@ -110,6 +111,84 @@ public class BeanConverter {
         }).collect(Collectors.toList());
         return respBeanList;
     }
+
+
+    public List<RulePageRespBean> ruleListConvert(List<AppArrayRuleInfo> list){
+        return list.stream().map(t->{
+            RulePageRespBean respBean = new RulePageRespBean();
+            respBean.setId(t.getId());
+            respBean.setName(t.getName());
+            respBean.setContent(t.getRule());
+            respBean.setOperator(t.getOperator());
+            respBean.setLastModifiedTime(DateUtils.date2String(t.getLastUpdateTime(), DateUtils.formalPattern));
+            return respBean;
+        }).collect(Collectors.toList());
+    }
+
+
+    public ArrayRespBean arrayConvert(AppArrayInfo appArrayInfo){
+        ArrayRespBean respBean = new ArrayRespBean();
+        respBean.setId(appArrayInfo.getId());
+        respBean.setArrayName(appArrayInfo.getArrayName());
+        respBean.setRuleId(appArrayInfo.getRuleId());
+        return respBean;
+    }
+
+    public List<RuleRespBean> ruleConvert(List<AppArrayRuleInfo> list){
+        return list.stream().map(t->{
+            RuleRespBean respBean = new RuleRespBean();
+            respBean.setId(t.getId());
+            respBean.setName(t.getName());
+            return respBean;
+        }).collect(Collectors.toList());
+    }
+
+    public RuleSingleRespBean ruleConvert(AppArrayRuleInfo t){
+        RuleSingleRespBean respBean = new RuleSingleRespBean();
+        respBean.setId(t.getId());
+        respBean.setRuleName(t.getName());
+        respBean.setContent(t.getRule());
+        return respBean;
+    }
+
+    public List<AppBasePageRespBean> appBaseConvert(List<AppBaseInfoDTO> list){
+        return list.stream().map(t->{
+            AppBasePageRespBean respBean = new AppBasePageRespBean();
+            respBean.setId(t.getId());
+            respBean.setAppId(t.getAppId());
+            respBean.setAppName(t.getAppName());
+            respBean.setAnnounceContent(t.getAnnounceContent());
+            respBean.setArrayName(t.getArrayName());
+            respBean.setCategoryName(t.getCategoryName());
+            respBean.setHomePageUrl(t.getHomePageUrl());
+            respBean.setOperator(t.getOperator());
+            respBean.setOperateTime(DateUtils.date2String(t.getOperateTime(), DateUtils.formalPattern));
+            return respBean;
+        }).collect(Collectors.toList());
+    }
+
+    public List<CategoryAllRespBean> categoryAllConvert(List<AppCategoryInfo> list){
+        return list.stream().map(t->{
+            CategoryAllRespBean respBean = new CategoryAllRespBean();
+            respBean.setId(t.getId());
+            respBean.setName(t.getCategoryName());
+            return respBean;
+        }).collect(Collectors.toList());
+    }
+
+    public List<ArrayAllRespBean> arrayAllConvert(List<AppArrayInfo> list){
+        return list.stream().map(t->{
+            ArrayAllRespBean respBean = new ArrayAllRespBean();
+            respBean.setId(t.getId());
+            respBean.setName(t.getArrayName());
+            return respBean;
+        }).collect(Collectors.toList());
+    }
+
+
+
+
+
 
 
     public LatestAwardRespBean latestAwardConvert(LatestAwardInfo latestAwardInfo){

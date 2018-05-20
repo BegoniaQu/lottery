@@ -4,4 +4,4 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <c:set var="doadmin" value="<%=request.getContextPath() %>" />
 <c:set var="ctx" value="<%=request.getContextPath() %>" />
-<c:set var="res" value="<%=request.getContextPath()+\"/WEB-INF/views\" %>" />
+

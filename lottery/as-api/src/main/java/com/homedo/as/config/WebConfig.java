@@ -11,6 +11,7 @@ import com.homedo.as.filter.WebSiteMeshFilter;
 import com.homedo.as.intercepter.LoginHandlerInterceptor;
 import com.pub.springboot.ResponseBodyWrapFactoryBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import javax.servlet.MultipartConfigElement;
 import java.util.List;
 
 /**
@@ -84,5 +86,13 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     @Bean
     public WebSiteMeshFilter getMeshFilter(){
         return new WebSiteMeshFilter();
+    }
+
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setMaxFileSize("10MB");
+        factory.setMaxRequestSize("10MB");
+        return factory.createMultipartConfig();
     }
 }

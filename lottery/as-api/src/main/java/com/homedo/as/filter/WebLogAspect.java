@@ -55,7 +55,9 @@ public class WebLogAspect {
             }
             sb.append("]");
         }else if(reqMethod.equals(HttpMethod.POST.name())){
-            sb.append(",body:").append(JsonUtil.getJsonFromObject(joinPoint.getArgs()[0]));
+            if(!request.getHeader("Content-Type").contains("multipart/form-data")){
+                sb.append(",body:").append(JsonUtil.getJsonFromObject(joinPoint.getArgs()[0]));
+            }
         }
         //ip
         //类方法

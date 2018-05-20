@@ -3,7 +3,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>首页</title>
+<title>组管理</title>
 	<link href="${doadmin}/static/bootstrap/js/plugins/bootstrap-table/bootstrap-table.css" rel="stylesheet">
 	<link href="${doadmin}/static/bootstrap/js/plugins/bootstrap-table/bootstrap-editable.css" rel="stylesheet">
 	<script src="${doadmin}/static/bootstrap/js/plugins/bootstrap-table/bootstrap-table.js"></script>
@@ -73,7 +73,7 @@
                                                 <label class="control-label">规则:</label>
                                             </div>
                                             <div class="databox-right ">
-												<select name="ruleId" id="myRule" class="select-sm form-control validate[required]" >
+												<select name="ruleId" id="myRule" class="select-sm form-control validate[required]" style="height: 30px;">
 													<option value="">--请选择--</option>
 												</select>
                                             </div>
@@ -137,7 +137,7 @@
 												<label class="control-label">规则:</label>
 											</div>
 											<div class="databox-right ">
-												<select name="ruleId" id="myEditRule" class="select-sm form-control validate[required]" >
+												<select name="ruleId" id="myEditRule" class="select-sm form-control validate[required]" style="height: 30px;">
 													<option value="">--请选择--</option>
 												</select>
 											</div>

@@ -1,10 +1,12 @@
 package com.homedo.as.api;
 
+import com.aliyun.oss.OSSClient;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.homedo.as.bean.BeanConverter;
 import com.homedo.as.bean.LoginUser;
 import com.homedo.as.bean.reqBean.*;
 import com.homedo.as.bean.respBean.*;
+import com.homedo.as.config.OSSConfig;
 import com.homedo.as.config.PropertiesConfig;
 import com.homedo.as.dto.AppArrayInfoDTO;
 import com.homedo.as.dto.AppBaseInfoDTO;
@@ -12,13 +14,15 @@ import com.homedo.as.entity.*;
 import com.homedo.as.service.*;
 import com.pub.DateUtils;
 import com.pub.JsonUtil;
+import com.pub.OssUtils;
 import com.pub.bean.PageResult;
 import com.pub.exception.SCInvalidParamException;
+import com.pub.exception.SCTargetExistsRuntimeException;
 import com.pub.exception.SCUnAuthorizedRuntimeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -65,10 +69,7 @@ public class DataController extends BaseController{
     }
 
     @PostMapping("/user/add")
-    public Object addUser(@Valid UserAddReqBean reqBean, HttpServletRequest request, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
-        }
+    public Object addUser(@Valid UserAddReqBean reqBean, HttpServletRequest request){
         LoginUser loginUser = (LoginUser)request.getSession().getAttribute("loginUser");
         if(!loginUser.isAdmin()){
             throw new SCUnAuthorizedRuntimeException("您无权此操作");
@@ -93,10 +94,7 @@ public class DataController extends BaseController{
     }
 
     @PostMapping("/sxcfg/add")
-    public Object addSxConfig(@Valid SxcfgAddReqBean reqBean, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
-        }
+    public Object addSxConfig(@Valid SxcfgAddReqBean reqBean){
         int year = reqBean.getYear();
         List<SxInfo> list = new ArrayList<>();
         SxInfo sxInfoMa = new SxInfo();
@@ -195,10 +193,7 @@ public class DataController extends BaseController{
     }
 
     @PostMapping("/award/add")
-    public Object addAward(@Valid AwardAddReqBean reqBean, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
-        }
+    public Object addAward(@Valid AwardAddReqBean reqBean){
         LatestAwardInfo latestAwardInfo = new LatestAwardInfo();
         latestAwardInfo.setCurrentTermNum(reqBean.getTermNum());
         String [] dates = reqBean.getNextDate().split("-");
@@ -292,10 +287,7 @@ public class DataController extends BaseController{
     }
 
     @PostMapping("/brocadesac/add")
-    public Object addBrocadesac(@Valid AddBrocadesacReqBean reqBean, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
-        }
+    public Object addBrocadesac(@Valid AddBrocadesacReqBean reqBean){
         BrocadeSacInfo brocadeSacInfo = new BrocadeSacInfo();
         brocadeSacInfo.setPeriod(reqBean.getPeriod());
         brocadeSacInfo.setContent(reqBean.getContent());
@@ -316,11 +308,7 @@ public class DataController extends BaseController{
     }
 
     @PostMapping("/recommend/add")
-    public Object addRecommend(@Valid RecommendAddReqBean reqBean, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
-        }
-
+    public Object addRecommend(@Valid RecommendAddReqBean reqBean){
         RecommendInfo recommendInfo = new RecommendInfo();
         String [] dates = reqBean.getTime().split("-");
         StringBuilder sb = new StringBuilder().append(dates[0]).append("年").append(dates[1]).append("月").append(dates[2]).append("日");
@@ -358,16 +346,13 @@ public class DataController extends BaseController{
             offset = (offset/10) +1;
         }
         Page<AppArrayInfoDTO> page = this.appArrayInfoService.page(arrayName, offset, limit);
-        List<AppArrayPageRespBean> respList = beanConverter.appArrayConvert(page.getRecords());
+        List<ArrayPageRespBean> respList = beanConverter.appArrayConvert(page.getRecords());
         return new PageResult<>(respList, page.getCurrent(), page.getSize(), page.getTotal());
     }
 
 
     @PostMapping("/array/add")
-    public Object addAppArrayInfo(@Valid AppArrayAddReqBean reqBean, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
-        }
+    public Object addAppArrayInfo(@Valid AppArrayAddReqBean reqBean){
         AppArrayInfo one = new AppArrayInfo();
         one.setArrayName(reqBean.getArrayName());
         one.setRuleId(reqBean.getRuleId());
@@ -379,14 +364,14 @@ public class DataController extends BaseController{
     @GetMapping(value = "/array/show")
     public Object getArray(@RequestParam Long id){
         AppArrayInfo appArrayInfo = this.appArrayInfoService.getById(id);
+        if(appArrayInfo == null){
+            throw new SCInvalidParamException("指定ID错误");
+        }
         return beanConverter.arrayConvert(appArrayInfo);
     }
 
     @PostMapping("/array/edit")
-    public Object editAppArrayInfo(@Valid AppArrayEditReqBean reqBean, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
-        }
+    public Object editAppArrayInfo(@Valid AppArrayEditReqBean reqBean){
         AppArrayInfo appArrayInfo = this.appArrayInfoService.getById(reqBean.getId());
         if(appArrayInfo == null){
             throw new SCInvalidParamException("指定ID错误");
@@ -409,6 +394,9 @@ public class DataController extends BaseController{
     @GetMapping(value = "/rule/show")
     public Object getRule(@RequestParam Long id){
         AppArrayRuleInfo appArrayRuleInfo = this.appArrayRuleInfoService.getById(id);
+        if(appArrayRuleInfo == null){
+            throw new SCInvalidParamException("指定ID错误");
+        }
         return beanConverter.ruleConvert(appArrayRuleInfo);
     }
 
@@ -429,10 +417,7 @@ public class DataController extends BaseController{
 
 
     @PostMapping("/rule/add")
-    public Object addRuleInfo(@Valid RuleAddReqBean reqBean, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
-        }
+    public Object addRuleInfo(@Valid RuleAddReqBean reqBean){
         AppArrayRuleInfo inserOne = new AppArrayRuleInfo();
         inserOne.setName(reqBean.getRuleName());
         inserOne.setRule(reqBean.getContent());
@@ -443,10 +428,7 @@ public class DataController extends BaseController{
 
 
     @PostMapping("/rule/edit")
-    public Object editRuleInfo(@Valid RuleEditReqBean reqBean, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
-        }
+    public Object editRuleInfo(@Valid RuleEditReqBean reqBean){
         AppArrayRuleInfo ruleInfo = this.appArrayRuleInfoService.getById(reqBean.getId());
         if(ruleInfo == null){
             throw new SCInvalidParamException("指定ID错误");
@@ -476,15 +458,60 @@ public class DataController extends BaseController{
         return new PageResult<>(respList, page.getCurrent(), page.getSize(), page.getTotal());
     }
 
+    @GetMapping("app/show")
+    public Object getAppBase(@RequestParam Long id){
+        AppBaseInfo appBaseInfo = this.appBaseInfoService.getById(id);
+        if(appBaseInfo == null){
+            throw new SCInvalidParamException("指定ID错误");
+        }
+        return beanConverter.appBaseConvert(appBaseInfo);
+    }
+
+    @PostMapping("app/add")
+    public Object addApp(@Valid AppBaseAddReqBean reqBean){
+
+        AppBaseInfo queryOne = this.appBaseInfoService.getByAppId(reqBean.getAppId());
+        if(queryOne != null){
+            throw new SCTargetExistsRuntimeException("appId已存在");
+        }
+        AppBaseInfo appBaseInfo = new AppBaseInfo();
+        appBaseInfo.setAppId(reqBean.getAppId());
+        appBaseInfo.setAppName(reqBean.getAppName());
+        appBaseInfo.setAppCategoryIdPath(reqBean.getCategoryId().toString());
+        appBaseInfo.setArrayId(reqBean.getArrayId());
+        appBaseInfo.setAnnounceContent(reqBean.getAnnounceCtn());
+        appBaseInfo.setHomePageUrl(reqBean.getHomePageUrl());
+        appBaseInfo.setOperator(getLongUser().getUserName());
+        this.appBaseInfoService.addAppBase(appBaseInfo);
+        return "";
+    }
+
+    @PostMapping("app/edit")
+    public Object updateAppBase(@Valid AppBaseEditReqBean reqBean){
+
+        AppBaseInfo appBaseInfo = this.appBaseInfoService.getById(reqBean.getId());
+        if(appBaseInfo == null){
+            throw new SCInvalidParamException("指定ID错误");
+        }
+        AppBaseInfo uptOne = new AppBaseInfo();
+        uptOne.setId(reqBean.getId());
+        uptOne.setAppId(reqBean.getAppId());
+        uptOne.setAppName(reqBean.getAppName());
+        uptOne.setAppCategoryIdPath(reqBean.getCategoryId().toString());
+        uptOne.setArrayId(reqBean.getArrayId());
+        uptOne.setAnnounceContent(reqBean.getAnnounceCtn());
+        uptOne.setHomePageUrl(reqBean.getHomePageUrl());
+        uptOne.setOperator(getLongUser().getUserName());
+        this.appBaseInfoService.updateAppBase(uptOne);
+        return "";
+    }
+
 
 
 
 
     @PostMapping("/category/add")
-    public Object addCategory(@Valid AppCategoryAddReqBean reqBean, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            throw new SCInvalidParamException(bindingResult.getFieldError().getDefaultMessage());
-        }
+    public Object addCategory(@Valid AppCategoryAddReqBean reqBean){
         AppCategoryInfo appCategoryInfo = new AppCategoryInfo();
         appCategoryInfo.setCategoryName(reqBean.getName());
         this.appCategoryInfoService.addCategory(appCategoryInfo);
@@ -502,6 +529,16 @@ public class DataController extends BaseController{
         List<AppArrayInfo> list = this.appArrayInfoService.findAll();
         return beanConverter.arrayAllConvert(list);
     }
+
+    @PostMapping("img/upload")
+    public Object uploadImg(@RequestParam("file") MultipartFile file){
+
+        OSSClient ossClient = new OSSClient(OSSConfig.endPoint, OSSConfig.accessKeyId, OSSConfig.accessKeySecret);
+        String fileName = OssUtils.uploadImg2Oss(file, ossClient, OSSConfig.bucketName);
+        System.out.println(fileName);
+        return "xxxxxx";
+    }
+
 
 
 

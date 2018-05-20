@@ -15,7 +15,7 @@ public class AppArrayEditReqBean {
     @NotBlank(message = "请填写组名称")
     private String arrayName;
 
-    @NotNull(message = "选择组规则")
+    @NotNull(message = "请选择组规则")
     private Long ruleId;
 
     public Long getId() {

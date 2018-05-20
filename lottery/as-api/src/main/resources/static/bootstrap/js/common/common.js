@@ -199,5 +199,7 @@ function initProfitRuleSelect(id){
 	return $("#"+id).select2({
 		    data: ProfitRuleSelectData,
 		    width:'100%'
-	});	
+	});
+
+
 }

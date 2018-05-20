@@ -52,7 +52,7 @@ public class ApiController {
     @ApiOperation(value="根据appId获取组配置信息", response = String.class, produces = "application/json")
     @GetMapping("/app/config")
     public Object getConfig(@ApiParam(required = true) @RequestParam("appId") String appId){
-        AppBaseInfo appBaseInfo =  appBaseInfoService.get(appId);
+        AppBaseInfo appBaseInfo =  appBaseInfoService.getByAppId(appId);
         if(appBaseInfo != null){
             Long arrayId = appBaseInfo.getArrayId();
             if(arrayId != null){
@@ -73,7 +73,7 @@ public class ApiController {
     @GetMapping("/home/info")
     public Object getHomeInfo(@ApiParam(required = true) @RequestParam String appId){
         //HomeDTO homeDTO = Request2PojoConverter.request2Pojo(request, HomeDTO.class);
-        AppBaseInfo appBaseInfo = appBaseInfoService.get(appId);
+        AppBaseInfo appBaseInfo = appBaseInfoService.getByAppId(appId);
         if(appBaseInfo != null){
             return beanConverter.homeInfoConvert(appBaseInfo);
         }

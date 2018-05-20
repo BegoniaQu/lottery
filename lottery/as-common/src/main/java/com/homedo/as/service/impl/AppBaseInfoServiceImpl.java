@@ -28,7 +28,7 @@ public class AppBaseInfoServiceImpl implements AppBaseInfoService{
     private AppBaseInfoMapper appBaseInfoMapper;
 
     @Override
-    public AppBaseInfo get(String appId) {
+    public AppBaseInfo getByAppId(String appId) {
         EntityWrapper<AppBaseInfo> wrapper = new EntityWrapper<>();
         wrapper.eq(AppBaseInfo.APPID, appId);
         return appBaseInfoDao.selectOne(wrapper);
@@ -41,5 +41,20 @@ public class AppBaseInfoServiceImpl implements AppBaseInfoService{
         List<AppBaseInfoDTO> list = this.appBaseInfoMapper.findAppBaseInfo(page, arrayId, categoryId, appId);
         page.setRecords(list);
         return page;
+    }
+
+    @Override
+    public void addAppBase(AppBaseInfo inserOne) {
+        appBaseInfoDao.insert(inserOne);
+    }
+
+    @Override
+    public AppBaseInfo getById(Long id) {
+        return this.appBaseInfoDao.selectById(id);
+    }
+
+    @Override
+    public void updateAppBase(AppBaseInfo uptOne) {
+        this.appBaseInfoDao.updateById(uptOne);
     }
 }

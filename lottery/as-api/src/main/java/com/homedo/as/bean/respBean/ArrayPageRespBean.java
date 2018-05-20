@@ -4,7 +4,7 @@ package com.homedo.as.bean.respBean;
 /**
  * Created by quyang on 2018/4/8.
  */
-public class AppArrayPageRespBean {
+public class ArrayPageRespBean {
 
     /**
      * 主键

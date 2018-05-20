@@ -1,6 +1,6 @@
 package com.homedo.as.bean.respBean;
 
-public class CategoryAllRespBean {
+public class CategoryRespBean {
 
     private Long id;
     private String name;

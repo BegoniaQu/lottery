@@ -98,9 +98,9 @@ public class BeanConverter {
     }
 
 
-    public List<AppArrayPageRespBean> appArrayConvert(List<AppArrayInfoDTO> list){
-        List<AppArrayPageRespBean> respBeanList = list.stream().map(t->{
-            AppArrayPageRespBean respBean = new AppArrayPageRespBean();
+    public List<ArrayPageRespBean> appArrayConvert(List<AppArrayInfoDTO> list){
+        List<ArrayPageRespBean> respBeanList = list.stream().map(t->{
+            ArrayPageRespBean respBean = new ArrayPageRespBean();
             respBean.setId(t.getId());
             respBean.setArrayName(t.getArrayName());
             respBean.setOperator(t.getOperator());
@@ -126,8 +126,8 @@ public class BeanConverter {
     }
 
 
-    public ArrayRespBean arrayConvert(AppArrayInfo appArrayInfo){
-        ArrayRespBean respBean = new ArrayRespBean();
+    public ArraySingleRespBean arrayConvert(AppArrayInfo appArrayInfo){
+        ArraySingleRespBean respBean = new ArraySingleRespBean();
         respBean.setId(appArrayInfo.getId());
         respBean.setArrayName(appArrayInfo.getArrayName());
         respBean.setRuleId(appArrayInfo.getRuleId());
@@ -167,18 +167,18 @@ public class BeanConverter {
         }).collect(Collectors.toList());
     }
 
-    public List<CategoryAllRespBean> categoryAllConvert(List<AppCategoryInfo> list){
+    public List<CategoryRespBean> categoryAllConvert(List<AppCategoryInfo> list){
         return list.stream().map(t->{
-            CategoryAllRespBean respBean = new CategoryAllRespBean();
+            CategoryRespBean respBean = new CategoryRespBean();
             respBean.setId(t.getId());
             respBean.setName(t.getCategoryName());
             return respBean;
         }).collect(Collectors.toList());
     }
 
-    public List<ArrayAllRespBean> arrayAllConvert(List<AppArrayInfo> list){
+    public List<ArrayRespBean> arrayAllConvert(List<AppArrayInfo> list){
         return list.stream().map(t->{
-            ArrayAllRespBean respBean = new ArrayAllRespBean();
+            ArrayRespBean respBean = new ArrayRespBean();
             respBean.setId(t.getId());
             respBean.setName(t.getArrayName());
             return respBean;
@@ -186,6 +186,17 @@ public class BeanConverter {
     }
 
 
+    public AppBaseSingleRespBean appBaseConvert(AppBaseInfo t){
+        AppBaseSingleRespBean respBean = new AppBaseSingleRespBean();
+        respBean.setId(t.getId());
+        respBean.setAppId(t.getAppId());
+        respBean.setArrayId(t.getArrayId());
+        respBean.setCategoryId(Long.parseLong(t.getAppCategoryIdPath()));
+        respBean.setAppName(t.getAppName());
+        respBean.setAnnounceCtn(t.getAnnounceContent());
+        respBean.setHomePageUrl(t.getHomePageUrl());
+        return respBean;
+    }
 
 
 

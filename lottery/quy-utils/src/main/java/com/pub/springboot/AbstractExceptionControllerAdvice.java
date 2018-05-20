@@ -4,6 +4,7 @@ import com.pub.ResultUitls;
 import com.pub.bean.ResultBean;
 import com.pub.exception.*;
 import com.pub.exception.enums.ResultCode;
+import org.springframework.validation.BindException;
 
 import java.security.InvalidParameterException;
 
@@ -39,9 +40,11 @@ public abstract class AbstractExceptionControllerAdvice {
         }
         if(e instanceof SCUnAuthorizedRuntimeException){
             return ResultUitls.fail(ResultCode.UnAutiorizedException.getCode(), e.getMessage());
+        }
+        if(e instanceof BindException){
+            return ResultUitls.fail(ResultCode.InvalidParamException.getCode(), ((BindException) e).getBindingResult().getFieldError().getDefaultMessage());
         }else{
             return ResultUitls.fail(ResultCode.SystemError.getCode(), e.getMessage());
         }
-
     }
 }

@@ -9,7 +9,9 @@ import com.homedo.as.entity.AppBaseInfo;
  */
 public interface AppBaseInfoService {
 
-    AppBaseInfo get(String appId);
-
+    AppBaseInfo getByAppId(String appId);
     Page<AppBaseInfoDTO> page(Long arrayId, Long categoryId, String appId, int pn, int ps);
+    void addAppBase(AppBaseInfo inserOne);
+    AppBaseInfo getById(Long id);
+    void updateAppBase(AppBaseInfo uptOne);
 }

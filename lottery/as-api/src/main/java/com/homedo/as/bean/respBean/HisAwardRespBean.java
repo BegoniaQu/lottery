@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by quyang on 2018/4/10.
  */
-@ApiModel
+@ApiModel(description = "历史开奖数据")
 public class HisAwardRespBean {
 
     @ApiModelProperty(value = "期数")
@@ -16,7 +16,7 @@ public class HisAwardRespBean {
     @ApiModelProperty(value = "开奖号码信息")
     private List<Ball> balls;
 
-    @ApiModel
+    @ApiModel(description = "球具体信息")
     public class Ball{
         @ApiModelProperty(value = "号码")
         private String num;

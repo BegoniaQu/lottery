@@ -211,9 +211,9 @@ public class BeanConverter {
         String [] nums = latestAwardInfo.getAwardNums().split(",");
         String [] sxs = latestAwardInfo.getSx().split(",");
         //
-        List<LatestAwardRespBean.Ball> balls = new ArrayList<>();
+        List<LatestAwardRespBean.LatestBall> balls = new ArrayList<>();
         for(int i = 0; i < nums.length;i++){
-            LatestAwardRespBean.Ball ball = bean.new Ball();
+            LatestAwardRespBean.LatestBall ball = bean.new LatestBall();
             ball.setNum(nums[i]);
             ball.setSx(sxs[i]);
             ball.setColor(PropertiesConfig.getBs(num2String(Integer.parseInt(nums[i]))));
@@ -231,10 +231,10 @@ public class BeanConverter {
         String [] nums = latestAwardInfo.getAwardNums().split(",");
         String [] sxs = latestAwardInfo.getSx().split(",");
         //
-        List<LatestAwardDetailRespBean.Ball> balls = new ArrayList<>();
+        List<LatestAwardDetailRespBean.LatestDetailBall> balls = new ArrayList<>();
         List<String> zmList = new ArrayList<>();//正码数据
         for(int i = 0; i < nums.length;i++){
-            LatestAwardDetailRespBean.Ball ball = bean.new Ball();
+            LatestAwardDetailRespBean.LatestDetailBall ball = bean.new LatestDetailBall();
             ball.setNum(nums[i]);
             ball.setSx(sxs[i]);
             ball.setColor(PropertiesConfig.getBs(num2String(Integer.parseInt(nums[i]))));

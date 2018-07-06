@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by quyang on 2018/4/10.
  */
-@ApiModel
+@ApiModel(description = "最新开奖数据详情")
 public class LatestAwardDetailRespBean {
 
     @ApiModelProperty(value = "当前期数")
@@ -16,8 +16,8 @@ public class LatestAwardDetailRespBean {
     @ApiModelProperty(value = "下次开奖时间")
     private String nextTermTime; //下次开奖时间
 
-    @ApiModelProperty(value = "球")
-    private List<Ball> balls; //球
+    @ApiModelProperty(value = "详情球信息")
+    private List<LatestDetailBall> balls; //球
 
     @ApiModelProperty(value = "特码分析")
     private TDetail tDetail;
@@ -28,8 +28,8 @@ public class LatestAwardDetailRespBean {
 
 
 
-    @ApiModel(description = "球")
-    public class Ball {
+    @ApiModel(description = "详细球")
+    public class LatestDetailBall {
         @ApiModelProperty(value = "号")
         private String num;
         @ApiModelProperty(value = "生肖")
@@ -163,11 +163,11 @@ public class LatestAwardDetailRespBean {
         this.nextTermTime = nextTermTime;
     }
 
-    public List<Ball> getBalls() {
+    public List<LatestDetailBall> getBalls() {
         return balls;
     }
 
-    public void setBalls(List<Ball> balls) {
+    public void setBalls(List<LatestDetailBall> balls) {
         this.balls = balls;
     }
 

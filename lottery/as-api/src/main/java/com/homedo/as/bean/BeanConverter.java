@@ -2,6 +2,7 @@ package com.homedo.as.bean;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.homedo.as.bean.respBean.*;
+import com.homedo.as.config.PropertiesConfig;
 import com.homedo.as.dto.AppArrayInfoDTO;
 import com.homedo.as.dto.AppBaseInfoDTO;
 import com.homedo.as.dto.JyWsRespDTO;
@@ -215,11 +216,84 @@ public class BeanConverter {
             LatestAwardRespBean.Ball ball = bean.new Ball();
             ball.setNum(nums[i]);
             ball.setSx(sxs[i]);
+            ball.setColor(PropertiesConfig.getBs(num2String(Integer.parseInt(nums[i]))));
             balls.add(ball);
         }
         bean.setBalls(balls);
         return bean;
     }
+
+    public LatestAwardDetailRespBean latestAwardDetailConvert(LatestAwardInfo latestAwardInfo){
+        LatestAwardDetailRespBean bean = new LatestAwardDetailRespBean();
+        bean.setCurrentTermNum(latestAwardInfo.getCurrentTermNum());
+        bean.setNextTermTime(latestAwardInfo.getNextTermTime());
+        //
+        String [] nums = latestAwardInfo.getAwardNums().split(",");
+        String [] sxs = latestAwardInfo.getSx().split(",");
+        //
+        List<LatestAwardDetailRespBean.Ball> balls = new ArrayList<>();
+        List<String> zmList = new ArrayList<>();//正码数据
+        for(int i = 0; i < nums.length;i++){
+            LatestAwardDetailRespBean.Ball ball = bean.new Ball();
+            ball.setNum(nums[i]);
+            ball.setSx(sxs[i]);
+            ball.setColor(PropertiesConfig.getBs(num2String(Integer.parseInt(nums[i]))));
+            balls.add(ball);
+            //正码分析 ：合数、五行、尾数、头数、段数、家野
+            if(i< nums.length - 1){
+                int zNum = Integer.parseInt(nums[i]);
+                int heshu = getHeshu(zNum);
+                String ds;
+                if(heshu % 2 == 0){
+                    ds = "双";
+                }else{
+                    ds = "单";
+                }
+                StringBuilder sb = new StringBuilder();
+                sb.append("合数(").append(heshu).append("合 , ").append(ds).append(")");
+                sb.append("、").append(PropertiesConfig.getWx(num2String(zNum)));
+                sb.append("、").append(num2String(zNum).substring(1)).append("尾");
+                sb.append("、").append(getToushu(num2String(zNum)));
+                sb.append("、").append(PropertiesConfig.getDs(num2String(zNum)));
+                sb.append("、").append(PropertiesConfig.getJy(sxs[i]));
+                zmList.add(sb.toString());
+            }
+        }
+        bean.setBalls(balls);
+        //特码分析
+        LatestAwardDetailRespBean.TDetail tDetail = bean.new TDetail();
+        int tNum = Integer.parseInt(nums[nums.length - 1]);
+        int heshu = getHeshu(tNum);
+        if(heshu % 2 == 0){
+            tDetail.setHsds("双");
+        }else{
+            tDetail.setHsds("单");
+        }
+        tDetail.setThs(heshu + "合");
+        tDetail.setTwx(PropertiesConfig.getWx(num2String(tNum)));
+        tDetail.setTjy(PropertiesConfig.getJy(sxs[sxs.length - 1]));
+        tDetail.setTdx(tNum <= 24 ? "小":"大");
+        tDetail.setTds(PropertiesConfig.getDs(num2String(tNum)));
+        tDetail.setTts(getToushu(num2String(tNum)));
+        tDetail.setWsdx(PropertiesConfig.getWs(num2String(tNum)));
+        bean.settDetail(tDetail);
+        bean.setpDetail(zmList);
+        return bean;
+    }
+
+    public static int getHeshu(int num){
+        int heshu;
+        if(num < 10){
+            heshu = num;
+        }else{
+            String tNumStr = String.valueOf(num);
+            int one = Character.getNumericValue(tNumStr.charAt(0));
+            int two = Character.getNumericValue(tNumStr.charAt(1));
+            heshu = one + two;
+        }
+        return heshu;
+    }
+
 
 
     public PageResult<AwardRespBean> awardConvert(Page<HisAwardInfo> page){
@@ -376,8 +450,31 @@ public class BeanConverter {
         return pattern.matcher(str).matches();
     }
 
+    private String num2String(int num){
+        return num < 10 ? ("0" + num) : "" + num;
+    }
+
+    private String getToushu(String num){
+        int first = num.charAt(0);
+        if(first == 0){
+            return "0头";
+        }
+        if(first == 1){
+            return "1头";
+        }
+        if(first == 2){
+            return "2头";
+        }
+        if(first == 3){
+            return "3头";
+        }
+        if(first == 4){
+            return "4头";
+        }
+        return "";
+    }
+
     public static void main(String[] args) {
-        String str = "野,家,野,家,野,家,野";
-        System.out.println(str.replace(',', ' '));
+        System.out.println(getHeshu(15));
     }
 }

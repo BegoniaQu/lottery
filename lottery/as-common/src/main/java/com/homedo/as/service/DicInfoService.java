@@ -8,4 +8,6 @@ import com.homedo.as.entity.DicInfo;
 public interface DicInfoService {
 
     DicInfo getByKey(String key);
+
+    void uptValueById(DicInfo dicInfo);
 }

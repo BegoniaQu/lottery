@@ -26,6 +26,8 @@ public class LatestAwardRespBean {
         private String num;
         @ApiModelProperty(value = "生肖")
         private String sx;
+        @ApiModelProperty(value = "波色")
+        private String color;
 
         public String getNum() {
             return num;
@@ -41,6 +43,14 @@ public class LatestAwardRespBean {
 
         public void setSx(String sx) {
             this.sx = sx;
+        }
+
+        public String getColor() {
+            return color;
+        }
+
+        public void setColor(String color) {
+            this.color = color;
         }
     }
 

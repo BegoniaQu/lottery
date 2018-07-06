@@ -60,6 +60,8 @@ public class DataController extends BaseController{
     private AppArrayRuleInfoService appArrayRuleInfoService;
     @Autowired
     private AppBaseInfoService appBaseInfoService;
+    @Autowired
+    private DicInfoService dicInfoService;
 
 
     @GetMapping("/user/list")
@@ -506,8 +508,26 @@ public class DataController extends BaseController{
         return "";
     }
 
+    @PostMapping("jzPic/upt")
+    public Object jzPic(@Valid  JzPicReqBean reqBean){
+        DicInfo dicInfo = dicInfoService.getByKey(PropertiesConfig.JZ_PIC);
+        if(dicInfo != null){
+            DicInfo uptOne = new DicInfo();
+            uptOne.setId(dicInfo.getId());
+            uptOne.setValue(reqBean.getJzPic());
+            this.dicInfoService.uptValueById(uptOne);
+        }
+        return "";
+    }
 
-
+    @GetMapping("jzPic/show")
+    public Object showJzPic(){
+        DicInfo dicInfo = dicInfoService.getByKey(PropertiesConfig.JZ_PIC);
+        if(dicInfo != null){
+            return dicInfo.getValue();
+        }
+        return "";
+    }
 
 
     @PostMapping("/category/add")

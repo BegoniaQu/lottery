@@ -33,11 +33,21 @@ public class PropertiesConfig {
 
      家禽：牛 马 羊 鸡 狗 猪
      野兽：鼠 虎 兔 龙 蛇 猴
+
+     段数：
+     1段-- 01,02,03,04,05,06,07,
+     2段-- 08,09,10,11,12,13,14,
+     3段-- 15,16,17,18,19,20,21,
+     4段-- 22,23,24,25,26,27,28,
+     5段-- 29,30,31,32,33,34,35,
+     6段-- 36,37,38,39,40,41,42,
+     7段-- 43,44,45,46,47,48,49,
      */
 
     private static final Map<String, List<String>> bsMap = new HashMap<>();
     private static final Map<String, List<String>> wxMap = new HashMap<>();
     private static final Map<String, List<String>> jqysMap = new HashMap<>();
+    private static final Map<String, List<String>> duanshuMap = new HashMap<>();
 
     static {
         //bs
@@ -66,6 +76,14 @@ public class PropertiesConfig {
         String ys = "鼠 虎 兔 龍 蛇 猴";
         jqysMap.put("家", Arrays.asList(jq.split(" ")));
         jqysMap.put("野", Arrays.asList(ys.split(" ")));
+        //段数
+        duanshuMap.put("1段", Arrays.asList("01,02,03,04,05,06,07".split(",")));
+        duanshuMap.put("2段", Arrays.asList("08,09,10,11,12,13,14".split(",")));
+        duanshuMap.put("3段", Arrays.asList("15,16,17,18,19,20,21".split(",")));
+        duanshuMap.put("4段", Arrays.asList("22,23,24,25,26,27,28".split(",")));
+        duanshuMap.put("5段", Arrays.asList("29,30,31,32,33,34,35".split(",")));
+        duanshuMap.put("6段", Arrays.asList("36,37,38,39,40,41,42".split(",")));
+        duanshuMap.put("7段", Arrays.asList("43,44,45,46,47,48,49".split(",")));
     }
 
 
@@ -165,6 +183,21 @@ public class PropertiesConfig {
         }else{
             return 1;
         }
+    }
+
+
+    /**
+     * 段数
+     * @param num
+     * @return
+     */
+    public static String getDs(String num){
+        for(String key : duanshuMap.keySet()){
+            if(duanshuMap.get(key).contains(num)){
+                return key;
+            }
+        }
+        return null;
     }
 
 

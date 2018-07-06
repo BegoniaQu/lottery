@@ -104,6 +104,15 @@ public class ApiController {
         return beanConverter.latestAwardConvert(latestAwardInfo);
     }
 
+    @ApiOperation(value="获取最新开奖结果详情", response = LatestAwardDetailRespBean.class, produces = "application/json")
+    @ApiImplicitParam(name = "appId", value = "appID" ,paramType = "query",dataType = "string")
+    @GetMapping("/award/latest/detail")
+    public Object getLatestAwardDetail(HttpServletRequest request){
+        LatestAwardInfo latestAwardInfo = latestAwardInfoService.getLatestAwardInfo();
+        return beanConverter.latestAwardDetailConvert(latestAwardInfo);
+    }
+
+
 
     @ApiOperation(value="获取历史开奖结果", response = HisAwardRespBean.class, produces = "application/json")
     @ApiImplicitParams({

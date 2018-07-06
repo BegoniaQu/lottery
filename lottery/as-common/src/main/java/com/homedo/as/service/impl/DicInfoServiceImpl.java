@@ -22,4 +22,9 @@ public class DicInfoServiceImpl implements DicInfoService{
         wrapper.eq(DicInfo.KEY, key);
         return dicInfoDao.selectOne(wrapper);
     }
+
+    @Override
+    public void uptValueById(DicInfo dicInfo) {
+        dicInfoDao.updateById(dicInfo);
+    }
 }

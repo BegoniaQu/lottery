@@ -223,6 +223,67 @@ public class BeanConverter {
         return bean;
     }
 
+    public HisAwardDetailRespBean hisAwardDetailConvert(HisAwardInfo hisAwardInfo){
+        HisAwardDetailRespBean bean = new HisAwardDetailRespBean();
+        bean.setCurrentTermNum(Integer.parseInt(hisAwardInfo.getTermNum()));
+        //
+        String [] nums = hisAwardInfo.getNumbers().split(",");
+        String [] sxs = hisAwardInfo.getSx().split(",");
+        String [] bss = hisAwardInfo.getBs().split(",");
+        String [] wxs = hisAwardInfo.getWx().split(",");
+        String [] jys = hisAwardInfo.getJy().split(",");
+        //
+        List<HisAwardDetailRespBean.HistoryDetailBall> balls = new ArrayList<>();
+        List<String> zmList = new ArrayList<>();//正码数据
+        for(int i = 0; i < nums.length;i++){
+            HisAwardDetailRespBean.HistoryDetailBall ball = bean.new HistoryDetailBall();
+            ball.setNum(nums[i]);
+            ball.setSx(sxs[i]);
+            ball.setColor(bss[i]);
+            balls.add(ball);
+            //正码分析 ：合数、五行、尾数、头数、段数、家野
+            if(i< nums.length - 1){
+                int zNum = Integer.parseInt(nums[i]);
+                int heshu = getHeshu(zNum);
+                String ds;
+                if(heshu % 2 == 0){
+                    ds = "双";
+                }else{
+                    ds = "单";
+                }
+                StringBuilder sb = new StringBuilder();
+                sb.append("合数(").append(heshu).append("合 , ").append(ds).append(")");
+                sb.append("、").append(wxs[i]);
+                sb.append("、").append(num2String(zNum).substring(1)).append("尾");
+                sb.append("、").append(getToushu(num2String(zNum)));
+                sb.append("、").append(PropertiesConfig.getDs(num2String(zNum)));
+                sb.append("、").append(jys[i]);
+                zmList.add(sb.toString());
+            }
+        }
+        bean.setBalls(balls);
+        //特码分析
+        HisAwardDetailRespBean.HisTDetail hisTDetail = bean.new HisTDetail();
+        int tNum = Integer.parseInt(nums[nums.length - 1]);
+        int heshu = getHeshu(tNum);
+        if(heshu % 2 == 0){
+            hisTDetail.setHsds("双");
+        }else{
+            hisTDetail.setHsds("单");
+        }
+        hisTDetail.setThs(heshu + "合");
+        hisTDetail.setTwx(wxs[nums.length - 1]);
+        hisTDetail.setTjy(jys[nums.length - 1]);
+        hisTDetail.setTdx(tNum <= 24 ? "小":"大");
+        hisTDetail.setTds(PropertiesConfig.getDs(num2String(tNum)));
+        hisTDetail.setTts(getToushu(num2String(tNum)));
+        hisTDetail.setWsdx(PropertiesConfig.getWs(num2String(tNum)));
+        bean.setHisTDetail(hisTDetail);
+        bean.setpDetail(zmList);
+        return bean;
+    }
+
+
     public LatestAwardDetailRespBean latestAwardDetailConvert(LatestAwardInfo latestAwardInfo){
         LatestAwardDetailRespBean bean = new LatestAwardDetailRespBean();
         bean.setCurrentTermNum(latestAwardInfo.getCurrentTermNum());
@@ -325,6 +386,7 @@ public class BeanConverter {
     public List<HisAwardRespBean> hisAwardConvert(List<HisAwardInfo> list){
         return list.stream().map(t->{
             HisAwardRespBean respBean = new HisAwardRespBean();
+            respBean.setId(t.getId());
             respBean.setPeriod(t.getPeriod());
             String [] nums = t.getNumbers().split(",");
             String [] wxs = t.getWx().split(",");
@@ -455,7 +517,7 @@ public class BeanConverter {
     }
 
     private String getToushu(String num){
-        int first = num.charAt(0);
+        int first = Character.getNumericValue(num.charAt(0));
         if(first == 0){
             return "0头";
         }

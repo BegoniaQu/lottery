@@ -9,6 +9,7 @@ import com.homedo.as.entity.*;
 import com.homedo.as.manager.DataManager;
 import com.homedo.as.service.*;
 import com.pub.Request2PojoConverter;
+import com.pub.exception.SCInvalidParamException;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -112,6 +113,19 @@ public class ApiController {
         return beanConverter.latestAwardDetailConvert(latestAwardInfo);
     }
 
+
+    @ApiOperation(value="获取历史开奖结果详情", response = HisAwardDetailRespBean.class, produces = "application/json")
+    @ApiImplicitParams({
+    @ApiImplicitParam(name = "appId", value = "appID" ,paramType = "query",dataType = "string"),
+    @ApiImplicitParam(name = "id", value = "id" ,paramType = "query",dataType = "long")})
+    @GetMapping("/award/history/detail")
+    public Object getHistoryAwardDetail(@RequestParam Long id, HttpServletRequest request){
+        HisAwardInfo one = hisAwardInfoService.getById(id);
+        if(!Optional.ofNullable(one).isPresent()){
+            throw new SCInvalidParamException("param error");
+        }
+        return beanConverter.hisAwardDetailConvert(one);
+    }
 
 
     @ApiOperation(value="获取历史开奖结果", response = HisAwardRespBean.class, produces = "application/json")

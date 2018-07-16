@@ -13,6 +13,7 @@ public interface HisAwardInfoService {
 
     void addHisAwardInfos(List<HisAwardInfo> list);
     HisAwardInfo getLatest();
+    HisAwardInfo getById(Long id);
     List<HisAwardInfo> find(HisAwardDTO dto);
     void addHisAwardInfo(HisAwardInfo insertOne);
 

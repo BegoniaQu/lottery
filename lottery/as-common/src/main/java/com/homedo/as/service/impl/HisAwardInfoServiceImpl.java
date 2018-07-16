@@ -79,4 +79,9 @@ public class HisAwardInfoServiceImpl implements HisAwardInfoService {
         wrapper.orderBy(HisAwardInfo.ID, false);
         return this.hisAwardInfoDao.selectPage(new Page<>(pn, ps), wrapper);
     }
+
+    @Override
+    public HisAwardInfo getById(Long id) {
+        return this.hisAwardInfoDao.selectById(id);
+    }
 }

@@ -10,7 +10,8 @@ import java.util.List;
  */
 @ApiModel(description = "历史开奖数据")
 public class HisAwardRespBean {
-
+    @ApiModelProperty(value = "ID")
+    private Long id;
     @ApiModelProperty(value = "期数")
     private String period;
     @ApiModelProperty(value = "开奖号码信息")
@@ -75,5 +76,13 @@ public class HisAwardRespBean {
 
     public void setBalls(List<Ball> balls) {
         this.balls = balls;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
